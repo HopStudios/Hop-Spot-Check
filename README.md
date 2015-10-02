@@ -3,16 +3,17 @@ Hop Spot Check for Expression Engine
 
 Check if your content is displayed only where it should be.
 
-Documentation
-=============
+##Documentation
 
-{exp:hop_spot_check spot="" action=""}
+    {exp:hop_spot_check spot="" action=""}
 
-action="redirect|404"
-'redirect' will redirect the user to the correct spot (using {redirect=} EE tag)
-'404' will redirect the user to a 404 page (using {redirect=404} EE tag)
+* `spot="the/url/you/want"`
+ * the spot to check against. Can be `the/url/to/check`, `/the/url/to/check`
+* `action="redirect|404"`
+ * 'redirect' will redirect the user to the correct spot (using {redirect=} EE tag)
+ * '404' will redirect the user to a 404 page (using {redirect=404} EE tag)
 
-/!\ NEVER leave a trailing slash (like '/the/path/') on the spot parameter, otherwise you might fall into a redirection loop (and your visitors might not appreciate that ;) )
+**/!\ NEVER** leave a trailing slash (like '/the/path/') on the spot parameter, otherwise you might fall into a redirection loop (and your visitors might not appreciate that ;) )
 
 
 ###Examples
