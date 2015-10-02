@@ -16,6 +16,10 @@ By default, if there's no match, you get forwarded to the URL of the spot you sp
 * `redirect="template_group/template/whatever"`
     will redirect the user to the redirect URL
 
+The tag also works as a tag pair (really usefull if you have troubles with parse order) :
+
+    {exp:hop_spot_check}/the/path/to/content{/exp:hop_spot_check}
+
 **/!\ NEVER** leave a trailing slash (like '/the/path/') on the spot parameter, otherwise you might fall into a redirection loop (and your visitors might not appreciate that ;) )
 
 

@@ -50,7 +50,16 @@ class Hop_spot_check
 			}
 		}
 		
-		$the_spot = ee()->TMPL->fetch_param('spot');
+		$the_spot = ee()->TMPL->tagdata;
+		if ($the_spot != "")
+		{
+			//remove tabs, new lines and cariage return
+			$the_spot = str_replace(array("\t", "\n", "\r"), '', $the_spot);
+		}
+		else
+		{
+			$the_spot = ee()->TMPL->fetch_param('spot');
+		}
 		$redirect = ee()->TMPL->fetch_param('redirect');
 
 		if ($the_spot == "")
@@ -126,6 +135,11 @@ class Hop_spot_check
 
 		redirect="template_group/template/whatever"
 		will redirect the user to the redirect URL
+		
+		The tag also works as a tag pair (really usefull if you have troubles with parse order) :
+		{exp:hop_spot_check parse="inward"}/the/path/to/content{/exp:hop_spot_check}
+		
+		Please consider using the tag pair as an inline tag to avoid glitches and weird characters appearing in the URL.
 		
 		/!\ NEVER leave a trailing slash (like '/the/path/') on the spot parameter, otherwise you might fall into a redirection loop (and your visitors might not appreciate that ;) )
 		
