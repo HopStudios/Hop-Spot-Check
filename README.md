@@ -3,40 +3,43 @@ Hop Spot Check for Expression Engine
 
 Check if your content is displayed only where it should be.
 
-##Documentation
+## Documentation
 
     {exp:hop_spot_check spot="" action=""}
 
-* `spot="the/url/you/want"`
- * the spot to check against. Can be `the/url/to/check`, `/the/url/to/check`
-* `action="redirect|404"`
- * 'redirect' will redirect the user to the correct spot (using {redirect=} EE tag)
- * '404' will redirect the user to a 404 page (using {redirect=404} EE tag)
+In Spot, you put what you expect the page to be, and it compares that to what the current URL is.
+By default, if there's no match, you get forwarded to the URL of the spot you specified.
+
+* `redirect="404"`
+    will redirect the user to the default 404 page
+
+* `redirect="template_group/template/whatever"`
+    will redirect the user to the redirect URL
 
 **/!\ NEVER** leave a trailing slash (like '/the/path/') on the spot parameter, otherwise you might fall into a redirection loop (and your visitors might not appreciate that ;) )
 
 
-###Examples
+### Examples
 
-URL is http://ee.dev/index.php/test/hop_spot_check
+URL is http://ee.dev/index.php/test/hop_spot_check  
 Tag is {exp:hop_spot_check spot="/test/hop_spot_check" }
 
 Result : doing nothing
 
 
-URL is http://ee.dev/index.php/test/hop_spot_check/
+URL is http://ee.dev/index.php/test/hop_spot_check/  
 Tag is {exp:hop_spot_check spot="test/hop_spot_check"}
 
 Result : doing nothing
 
 
-URL is http://ee.dev/index.php/test/hop_spot_check/foo/bar
+URL is http://ee.dev/index.php/test/hop_spot_check/foo/bar  
 Tag is {exp:hop_spot_check spot="test/hop_spot_check"}
 
 Result : redirection to http://ee.dev/index.php/test/hop_spot_check
 
 
-URL is http://ee.dev/index.php/test/hop_spot_check
+URL is http://ee.dev/index.php/test/hop_spot_check  
 Tag is {exp:hop_spot_check spot="test/hop_spot_check/foo"}
 
 Result : redirection to http://ee.dev/index.php/test/hop_spot_check/foo

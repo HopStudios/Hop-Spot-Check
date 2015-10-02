@@ -58,7 +58,7 @@ class Hop_spot_check
 			return;
 		}
 		
-		//Cleaning in case the_spot is like /the/relative/url
+		//Cleaning the first '/' in case the_spot is like /the/relative/url
 		$re = "/^\\/([a-zA-Z0-9\\~\\%]+)/";
 		preg_match($re, $the_spot, $matches);
 		// print_r($matches);
