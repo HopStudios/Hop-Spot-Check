@@ -51,6 +51,8 @@ class Hop_spot_check
 		}
 		
 		$the_spot = ee()->TMPL->fetch_param('spot');
+		$redirect = ee()->TMPL->fetch_param('redirect');
+
 		if ($the_spot == "")
 		{
 			return;
@@ -65,8 +67,6 @@ class Hop_spot_check
 			$the_spot = substr($the_spot, 1);
 		}
 		
-		
-		$action = ee()->TMPL->fetch_param('action');
 		
 		//Default case: compare form path to the end ( path/with?a=query#andAnchor )
 		$current_spot = ee()->uri->uri_string();
@@ -84,17 +84,28 @@ class Hop_spot_check
 			
 		}
 		
-		if ($current_spot != $the_spot)
+		if ($current_spot == $the_spot)
 		{
-			if ($action == "404")
-			{
-				$this->return_data = '{redirect="404"}';
-				return;
-			}
-			
-			// Default case : redirection
-			$this->return_data = '{redirect="'.$the_spot.'"}';
 			return;
+		}
+		else
+		{
+			if ($redirect == "404")
+			{
+				ee()->TMPL->show_404();
+				exit;
+			}
+			elseif ($redirect != "")
+			{
+				ee()->functions->redirect(ee()->functions->create_url(ee()->functions->extract_path('='.$redirect)));
+				exit;
+			}
+			else
+			{
+				// Default case : redirection to $the_spot
+				ee()->functions->redirect(ee()->functions->create_url(ee()->functions->extract_path('='.$the_spot)));
+				exit;
+			}
 		}
 		
 		
@@ -106,11 +117,15 @@ class Hop_spot_check
 	?>
 		--- Hop Spot Check ---
 		
-		{exp:hop_spot_check spot="" action=""}
+		{exp:hop_spot_check spot="" redirect=""}
+		In Spot, you put what you expect the page to be, and it compares that to what the current URL is.
+		By default, if there's no match, you get forwarded to the URL of the spot you specified.
 		
-		action="redirect|404"
-		'redirect' will redirect the user to the correct spot (using {redirect=} EE tag)
-		'404' will redirect the user to a 404 page (using {redirect=404} EE tag)
+		redirect="404"
+		will redirect the user to the default 404 page
+
+		redirect="template_group/template/whatever"
+		will redirect the user to the redirect URL
 		
 		/!\ NEVER leave a trailing slash (like '/the/path/') on the spot parameter, otherwise you might fall into a redirection loop (and your visitors might not appreciate that ;) )
 		
@@ -139,6 +154,7 @@ class Hop_spot_check
 		Tag is {exp:hop_spot_check spot="test/hop_spot_check/foo"}
 		
 		Result : redirection to http://ee.dev/index.php/test/hop_spot_check/foo
+
 	<?php
 		$buffer = ob_get_contents();
 	
